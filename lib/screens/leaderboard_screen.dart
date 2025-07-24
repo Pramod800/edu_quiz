@@ -5,7 +5,6 @@ class LeaderboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Dummy leaderboard data
     final leaderboardData = [
       {'rank': 1, 'name': 'Alex Johnson', 'score': 9850, 'avatar': 'https://i.pravatar.cc/150?img=1', 'isCurrentUser': false},
       {'rank': 2, 'name': 'Maria Garcia', 'score': 9720, 'avatar': 'https://i.pravatar.cc/150?img=5', 'isCurrentUser': false},

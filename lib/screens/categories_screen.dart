@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../utils/dummy_data.dart';
+import 'quiz_screen.dart';
 
 class CategoriesScreen extends StatelessWidget {
   const CategoriesScreen({super.key});

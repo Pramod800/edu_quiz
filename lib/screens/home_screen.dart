@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../utils/dummy_data.dart';
+import 'quiz_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -77,7 +79,14 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const QuizScreen(quizId: '1'),
+                            ),
+                          );
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.deepPurple,
@@ -107,13 +116,11 @@ class HomeScreen extends StatelessWidget {
               
               Expanded(
                 child: ListView.builder(
-                  itemCount: 5,
+                  itemCount: DummyData.getQuizzes().length,
                   itemBuilder: (context, index) {
+                    final quiz = DummyData.getQuizzes()[index];
                     return QuizCard(
-                      title: 'Quiz ${index + 1}',
-                      category: _getRandomCategory(),
-                      questions: 10,
-                      timeMinutes: 5,
+                      quiz: quiz,
                       color: _getRandomColor(),
                     );
                   },
@@ -144,18 +151,12 @@ class HomeScreen extends StatelessWidget {
 }
 
 class QuizCard extends StatelessWidget {
-  final String title;
-  final String category;
-  final int questions;
-  final int timeMinutes;
+  final dynamic quiz;
   final Color color;
 
   const QuizCard({
     super.key,
-    required this.title,
-    required this.category,
-    required this.questions,
-    required this.timeMinutes,
+    required this.quiz,
     required this.color,
   });
 
@@ -182,21 +183,28 @@ class QuizCard extends StatelessWidget {
           ),
         ),
         title: Text(
-          title,
+          quiz.title,
           style: const TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
         ),
         subtitle: Text(
-          '$category • $questions questions • $timeMinutes min',
+          '${quiz.category} • ${quiz.questionCount} questions • ${quiz.timeInMinutes} min',
           style: TextStyle(
             color: Colors.grey[600],
             fontSize: 12,
           ),
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: () {},
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => QuizScreen(quizId: quiz.id),
+            ),
+          );
+        },
       ),
     );
   }
