@@ -6,7 +6,7 @@ class Quiz {
   final String imageUrl;
   final int questionCount;
   final int timeInMinutes;
-  final int difficulty; // 1-5 scale
+  final int difficulty;
   final bool isFeatured;
   final List<Question> questions;
 
@@ -31,23 +31,14 @@ class Question {
   final String correctOptionId;
   final String? explanation;
 
-  Question({
-    required this.id,
-    required this.text,
-    required this.options,
-    required this.correctOptionId,
-    this.explanation,
-  });
+  Question({required this.id, required this.text, required this.options, required this.correctOptionId, this.explanation});
 }
 
 class Option {
   final String id;
   final String text;
 
-  Option({
-    required this.id,
-    required this.text,
-  });
+  Option({required this.id, required this.text});
 }
 
 class Category {
@@ -57,13 +48,7 @@ class Category {
   final String color;
   final int quizCount;
 
-  Category({
-    required this.id,
-    required this.name,
-    required this.iconName,
-    required this.color,
-    required this.quizCount,
-  });
+  Category({required this.id, required this.name, required this.iconName, required this.color, required this.quizCount});
 }
 
 class User {
@@ -103,13 +88,7 @@ class AchievementBadge {
   final String color;
   final String description;
 
-  AchievementBadge({
-    required this.id,
-    required this.name,
-    required this.iconName,
-    required this.color,
-    required this.description,
-  });
+  AchievementBadge({required this.id, required this.name, required this.iconName, required this.color, required this.description});
 }
 
 class Activity {
@@ -119,13 +98,7 @@ class Activity {
   final String? subtitle;
   final DateTime timestamp;
 
-  Activity({
-    required this.id,
-    required this.type,
-    required this.title,
-    this.subtitle,
-    required this.timestamp,
-  });
+  Activity({required this.id, required this.type, required this.title, this.subtitle, required this.timestamp});
 }
 
 class LeaderboardEntry {

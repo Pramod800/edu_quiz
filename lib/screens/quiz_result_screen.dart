@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:flutter/material.dart';
 import '../models/quiz_model.dart';
-import '../utils/dummy_data.dart';
 
 class QuizResultScreen extends StatelessWidget {
   final Quiz quiz;
@@ -9,26 +8,20 @@ class QuizResultScreen extends StatelessWidget {
   final int timeSpent;
   final int correctAnswers;
 
-  const QuizResultScreen({
-    super.key,
-    required this.quiz,
-    required this.userAnswers,
-    required this.timeSpent,
-    required this.correctAnswers,
-  });
+  const QuizResultScreen({super.key, required this.quiz, required this.userAnswers, required this.timeSpent, required this.correctAnswers});
 
   @override
   Widget build(BuildContext context) {
     final score = (correctAnswers / quiz.questions.length * 100).toInt();
-    final isPassed = score >= 60; // Pass threshold is 60%
+    final isPassed = score >= 60; 
     final timeSpentMinutes = (timeSpent / 60).toStringAsFixed(1);
-    
+
     // Calculate XP earned
     final baseXP = correctAnswers * 10;
     final timeBonus = quiz.timeInMinutes * 60 > timeSpent ? 20 : 0;
     final difficultyBonus = quiz.difficulty * 5;
     final totalXP = baseXP + timeBonus + difficultyBonus;
-    
+
     return Scaffold(
       body: SafeArea(
         child: Padding(
@@ -55,29 +48,22 @@ class QuizResultScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              
+
               const SizedBox(height: 16),
-              
+
               // Result header
               Text(
                 isPassed ? 'Congratulations!' : 'Better luck next time!',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               Text(
                 'You scored $score%',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: isPassed ? Colors.green : Colors.red,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 18, color: isPassed ? Colors.green : Colors.red, fontWeight: FontWeight.bold),
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Score chart
               SizedBox(
                 height: 200,
@@ -112,54 +98,27 @@ class QuizResultScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
               const SizedBox(height: 16),
-              
+
               // Legend
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Row(
-                    children: [
-                      Container(
-                        width: 16,
-                        height: 16,
-                        color: Colors.green,
-                      ),
-                      const SizedBox(width: 8),
-                      const Text('Correct'),
-                    ],
-                  ),
+                  Row(children: [Container(width: 16, height: 16, color: Colors.green), const SizedBox(width: 8), const Text('Correct')]),
                   const SizedBox(width: 24),
-                  Row(
-                    children: [
-                      Container(
-                        width: 16,
-                        height: 16,
-                        color: Colors.red,
-                      ),
-                      const SizedBox(width: 8),
-                      const Text('Incorrect'),
-                    ],
-                  ),
+                  Row(children: [Container(width: 16, height: 16, color: Colors.red), const SizedBox(width: 8), const Text('Incorrect')]),
                 ],
               ),
-              
+
               const SizedBox(height: 32),
-              
+
               // Stats
               Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 5),
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))],
                 ),
                 child: Column(
                   children: [
@@ -171,9 +130,9 @@ class QuizResultScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Buttons
               Row(
                 children: [
@@ -213,37 +172,25 @@ class QuizResultScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   Widget _buildStatRow(String label, String value) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            label,
-            style: const TextStyle(
-              color: Colors.grey,
-            ),
-          ),
-          Text(
-            value,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+          Text(label, style: const TextStyle(color: Colors.grey)),
+          Text(value, style: const TextStyle(fontWeight: FontWeight.bold)),
         ],
       ),
     );
   }
-  
+
   void _showAnswersReview(BuildContext context) {
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-      ),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (context) {
         return DraggableScrollableSheet(
           initialChildSize: 0.9,
@@ -258,17 +205,8 @@ class QuizResultScreen extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Review Answers',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.close),
-                      ),
+                      const Text('Review Answers', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                      IconButton(onPressed: () => Navigator.pop(context), icon: const Icon(Icons.close)),
                     ],
                   ),
                 ),
@@ -281,20 +219,14 @@ class QuizResultScreen extends StatelessWidget {
                       final question = quiz.questions[index];
                       final userAnswer = userAnswers[question.id];
                       final isCorrect = userAnswer == question.correctOptionId;
-                      
+
                       return Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 8,
-                        ),
+                        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                            color: isCorrect ? Colors.green : Colors.red,
-                            width: 2,
-                          ),
+                          border: Border.all(color: isCorrect ? Colors.green : Colors.red, width: 2),
                         ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -304,99 +236,44 @@ class QuizResultScreen extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
-                                    color: isCorrect
-                                        ? Colors.green.withOpacity(0.2)
-                                        : Colors.red.withOpacity(0.2),
+                                    color: isCorrect ? Colors.green.withOpacity(0.2) : Colors.red.withOpacity(0.2),
                                     shape: BoxShape.circle,
                                   ),
-                                  child: Icon(
-                                    isCorrect ? Icons.check : Icons.close,
-                                    color: isCorrect ? Colors.green : Colors.red,
-                                  ),
+                                  child: Icon(isCorrect ? Icons.check : Icons.close, color: isCorrect ? Colors.green : Colors.red),
                                 ),
                                 const SizedBox(width: 12),
-                                Expanded(
-                                  child: Text(
-                                    'Question ${index + 1}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
+                                Expanded(child: Text('Question ${index + 1}', style: const TextStyle(fontWeight: FontWeight.bold))),
                               ],
                             ),
                             const SizedBox(height: 12),
-                            Text(
-                              question.text,
-                              style: const TextStyle(
-                                fontSize: 16,
-                              ),
-                            ),
+                            Text(question.text, style: const TextStyle(fontSize: 16)),
                             const SizedBox(height: 16),
-                            const Text(
-                              'Your Answer:',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey,
-                              ),
-                            ),
+                            const Text('Your Answer:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
                             const SizedBox(height: 8),
-                            _buildAnswerRow(
-                              question,
-                              userAnswer,
-                              isUserAnswer: true,
-                            ),
+                            _buildAnswerRow(question, userAnswer, isUserAnswer: true),
                             if (!isCorrect) ...[
                               const SizedBox(height: 16),
-                              const Text(
-                                'Correct Answer:',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey,
-                                ),
-                              ),
+                              const Text('Correct Answer:', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey)),
                               const SizedBox(height: 8),
-                              _buildAnswerRow(
-                                question,
-                                question.correctOptionId,
-                                isUserAnswer: false,
-                              ),
+                              _buildAnswerRow(question, question.correctOptionId, isUserAnswer: false),
                             ],
                             if (question.explanation != null) ...[
                               const SizedBox(height: 16),
                               Container(
                                 padding: const EdgeInsets.all(12),
-                                decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.1),
-                                  borderRadius: BorderRadius.circular(8),
-                                ),
+                                decoration: BoxDecoration(color: Colors.blue.withOpacity(0.1), borderRadius: BorderRadius.circular(8)),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     const Row(
                                       children: [
-                                        Icon(
-                                          Icons.info,
-                                          color: Colors.blue,
-                                          size: 16,
-                                        ),
+                                        Icon(Icons.info, color: Colors.blue, size: 16),
                                         SizedBox(width: 8),
-                                        Text(
-                                          'Explanation',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.blue,
-                                          ),
-                                        ),
+                                        Text('Explanation', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue)),
                                       ],
                                     ),
                                     const SizedBox(height: 8),
-                                    Text(
-                                      question.explanation!,
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
+                                    Text(question.explanation!, style: const TextStyle(fontSize: 14)),
                                   ],
                                 ),
                               ),
@@ -414,51 +291,25 @@ class QuizResultScreen extends StatelessWidget {
       },
     );
   }
-  
+
   Widget _buildAnswerRow(Question question, String? optionId, {required bool isUserAnswer}) {
     if (optionId == null) {
-      return const Text(
-        'No answer selected',
-        style: TextStyle(
-          fontStyle: FontStyle.italic,
-          color: Colors.grey,
-        ),
-      );
+      return const Text('No answer selected', style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey));
     }
-    
+
     final option = question.options.firstWhere((o) => o.id == optionId);
     final isCorrect = optionId == question.correctOptionId;
-    
+
     return Row(
       children: [
         Container(
           width: 28,
           height: 28,
-          decoration: BoxDecoration(
-            color: isUserAnswer
-                ? (isCorrect ? Colors.green : Colors.red)
-                : Colors.green,
-            shape: BoxShape.circle,
-          ),
-          child: Center(
-            child: Text(
-              option.id,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
+          decoration: BoxDecoration(color: isUserAnswer ? (isCorrect ? Colors.green : Colors.red) : Colors.green, shape: BoxShape.circle),
+          child: Center(child: Text(option.id, style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold))),
         ),
         const SizedBox(width: 12),
-        Expanded(
-          child: Text(
-            option.text,
-            style: const TextStyle(
-              fontSize: 15,
-            ),
-          ),
-        ),
+        Expanded(child: Text(option.text, style: const TextStyle(fontSize: 15))),
       ],
     );
   }

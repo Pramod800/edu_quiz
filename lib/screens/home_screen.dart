@@ -1,9 +1,32 @@
+import 'package:edu_quiz/core/network/dio_client.dart';
 import 'package:flutter/material.dart';
 import '../utils/dummy_data.dart';
 import 'quiz_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  final quizService = QuizApiService();
+
+  Future<void> loadQuiz() async {
+    try {
+      final questions = await quizService.fetchQuestions(amount: 10, category: "18", difficulty: "easy", type: "multiple");
+      print(questions); // use in state management
+    } catch (e) {
+      print("Error: $e");
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadQuiz();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,24 +37,11 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'Hello, Quizzer!',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              const Text('Hello, Quizzer!', style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
               const SizedBox(height: 8),
-              const Text(
-                'Let\'s test your knowledge today',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey,
-                ),
-              ),
+              const Text('Let\'s test your knowledge today', style: TextStyle(fontSize: 16, color: Colors.grey)),
               const SizedBox(height: 24),
-              
-              // Featured Quiz
+
               Container(
                 width: double.infinity,
                 height: 180,
@@ -52,48 +62,21 @@ class HomeScreen extends StatelessWidget {
                       const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'Featured Quiz',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
+                          Text('Featured Quiz', style: TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w500)),
                           SizedBox(height: 8),
-                          Text(
-                            'Science Trivia',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '10 questions • 5 min',
-                            style: TextStyle(
-                              color: Colors.white70,
-                              fontSize: 14,
-                            ),
-                          ),
+                          Text('Science Trivia', style: TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold)),
+                          Text('10 questions • 5 min', style: TextStyle(color: Colors.white70, fontSize: 14)),
                         ],
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const QuizScreen(quizId: '1'),
-                            ),
-                          );
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizScreen(quizId: '1')));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           foregroundColor: Colors.deepPurple,
                           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
                         ),
                         child: const Text('Play Now'),
                       ),
@@ -101,28 +84,19 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              
+
               const SizedBox(height: 24),
-              
+
               // Popular Quizzes
-              const Text(
-                'Popular Quizzes',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              const Text('Popular Quizzes', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16),
-              
+
               Expanded(
                 child: ListView.builder(
                   itemCount: DummyData.getQuizzes().length,
                   itemBuilder: (context, index) {
                     final quiz = DummyData.getQuizzes()[index];
-                    return QuizCard(
-                      quiz: quiz,
-                      color: _getRandomColor(),
-                    );
+                    return QuizCard(quiz: quiz, color: _getRandomColor());
                   },
                 ),
               ),
@@ -132,20 +106,14 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-  
+
   String _getRandomCategory() {
     final categories = ['History', 'Science', 'Geography', 'Sports', 'Movies'];
     return categories[DateTime.now().millisecond % categories.length];
   }
-  
+
   Color _getRandomColor() {
-    final colors = [
-      Colors.blue,
-      Colors.green,
-      Colors.orange,
-      Colors.purple,
-      Colors.teal,
-    ];
+    final colors = [Colors.blue, Colors.green, Colors.orange, Colors.purple, Colors.teal];
     return colors[DateTime.now().millisecond % colors.length];
   }
 }
@@ -154,56 +122,30 @@ class QuizCard extends StatelessWidget {
   final dynamic quiz;
   final Color color;
 
-  const QuizCard({
-    super.key,
-    required this.quiz,
-    required this.color,
-  });
+  const QuizCard({super.key, required this.quiz, required this.color});
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 16),
       elevation: 2,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
         leading: Container(
           width: 50,
           height: 50,
-          decoration: BoxDecoration(
-            color: color.withOpacity(0.2),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Icon(
-            Icons.quiz,
-            color: color,
-          ),
+          decoration: BoxDecoration(color: color.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
+          child: Icon(Icons.quiz, color: color),
         ),
-        title: Text(
-          quiz.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 16,
-          ),
-        ),
+        title: Text(quiz.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         subtitle: Text(
           '${quiz.category} • ${quiz.questionCount} questions • ${quiz.timeInMinutes} min',
-          style: TextStyle(
-            color: Colors.grey[600],
-            fontSize: 12,
-          ),
+          style: TextStyle(color: Colors.grey[600], fontSize: 12),
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => QuizScreen(quizId: quiz.id),
-            ),
-          );
+          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizScreen(quizId: quiz.id)));
         },
       ),
     );

@@ -36,7 +36,7 @@ class DummyData {
         questionCount: 10,
         timeInMinutes: 5,
         difficulty: 3,
-        questions: [],
+        questions: _getGeographyQuestions(),
       ),
       Quiz(
         id: '4',
@@ -63,65 +63,16 @@ class DummyData {
     ];
   }
 
-  // Dummy categories
   static List<Category> getCategories() {
     return [
-      Category(
-        id: '1',
-        name: 'Science',
-        iconName: 'science',
-        color: '#1565C0',
-        quizCount: 12,
-      ),
-      Category(
-        id: '2',
-        name: 'History',
-        iconName: 'history_edu',
-        color: '#FFA000',
-        quizCount: 8,
-      ),
-      Category(
-        id: '3',
-        name: 'Geography',
-        iconName: 'public',
-        color: '#2E7D32',
-        quizCount: 10,
-      ),
-      Category(
-        id: '4',
-        name: 'Sports',
-        iconName: 'sports_soccer',
-        color: '#F57C00',
-        quizCount: 6,
-      ),
-      Category(
-        id: '5',
-        name: 'Movies',
-        iconName: 'movie',
-        color: '#C62828',
-        quizCount: 15,
-      ),
-      Category(
-        id: '6',
-        name: 'Music',
-        iconName: 'music_note',
-        color: '#6A1B9A',
-        quizCount: 9,
-      ),
-      Category(
-        id: '7',
-        name: 'Technology',
-        iconName: 'computer',
-        color: '#00695C',
-        quizCount: 11,
-      ),
-      Category(
-        id: '8',
-        name: 'Art',
-        iconName: 'palette',
-        color: '#AD1457',
-        quizCount: 7,
-      ),
+      Category(id: '1', name: 'Science', iconName: 'science', color: '#1565C0', quizCount: 12),
+      Category(id: '2', name: 'History', iconName: 'history_edu', color: '#FFA000', quizCount: 8),
+      Category(id: '3', name: 'Geography', iconName: 'public', color: '#2E7D32', quizCount: 10),
+      Category(id: '4', name: 'Sports', iconName: 'sports_soccer', color: '#F57C00', quizCount: 6),
+      Category(id: '5', name: 'Movies', iconName: 'movie', color: '#C62828', quizCount: 15),
+      Category(id: '6', name: 'Music', iconName: 'music_note', color: '#6A1B9A', quizCount: 9),
+      Category(id: '7', name: 'Technology', iconName: 'computer', color: '#00695C', quizCount: 11),
+      Category(id: '8', name: 'Art', iconName: 'palette', color: '#AD1457', quizCount: 7),
     ];
   }
 
@@ -247,20 +198,8 @@ class DummyData {
           color: '#C62828',
           description: 'Completed a quiz in under 2 minutes',
         ),
-        AchievementBadge(
-          id: '4',
-          name: 'Perfect Score',
-          iconName: 'star',
-          color: '#6A1B9A',
-          description: 'Got 100% on a quiz',
-        ),
-        AchievementBadge(
-          id: '5',
-          name: 'Quiz Addict',
-          iconName: 'psychology',
-          color: '#2E7D32',
-          description: 'Completed 25 quizzes',
-        ),
+        AchievementBadge(id: '4', name: 'Perfect Score', iconName: 'star', color: '#6A1B9A', description: 'Got 100% on a quiz'),
+        AchievementBadge(id: '5', name: 'Quiz Addict', iconName: 'psychology', color: '#2E7D32', description: 'Completed 25 quizzes'),
       ],
       recentActivity: [
         Activity(
@@ -270,12 +209,7 @@ class DummyData {
           subtitle: 'Score: 8/10',
           timestamp: DateTime.now().subtract(const Duration(hours: 2)),
         ),
-        Activity(
-          id: '2',
-          type: 'badge_earned',
-          title: 'Perfect Score',
-          timestamp: DateTime.now().subtract(const Duration(days: 1)),
-        ),
+        Activity(id: '2', type: 'badge_earned', title: 'Perfect Score', timestamp: DateTime.now().subtract(const Duration(days: 1))),
         Activity(
           id: '3',
           type: 'quiz_completed',
@@ -283,12 +217,7 @@ class DummyData {
           subtitle: 'Score: 10/10',
           timestamp: DateTime.now().subtract(const Duration(days: 1, hours: 2)),
         ),
-        Activity(
-          id: '4',
-          type: 'level_up',
-          title: 'Level 8',
-          timestamp: DateTime.now().subtract(const Duration(days: 2)),
-        ),
+        Activity(id: '4', type: 'level_up', title: 'Level 8', timestamp: DateTime.now().subtract(const Duration(days: 2))),
         Activity(
           id: '5',
           type: 'quiz_completed',
@@ -306,12 +235,7 @@ class DummyData {
       Question(
         id: '1',
         text: 'What is the chemical symbol for gold?',
-        options: [
-          Option(id: 'A', text: 'Au'),
-          Option(id: 'B', text: 'Ag'),
-          Option(id: 'C', text: 'Fe'),
-          Option(id: 'D', text: 'Gd'),
-        ],
+        options: [Option(id: 'A', text: 'Au'), Option(id: 'B', text: 'Ag'), Option(id: 'C', text: 'Fe'), Option(id: 'D', text: 'Gd')],
         correctOptionId: 'A',
         explanation: 'The chemical symbol for gold is Au, which comes from the Latin word "aurum".',
       ),
@@ -357,6 +281,49 @@ class DummyData {
         ],
         correctOptionId: 'B',
         explanation: 'George Washington was the first President of the United States, serving from 1789 to 1797.',
+      ),
+      // Add more questions as needed
+    ];
+  }
+
+  static List<Question> _getGeographyQuestions() {
+    return [
+      Question(
+        id: '1',
+        text: 'What is the name of the longest river in Africa?',
+        options: [
+          Option(id: 'A', text: 'Nile'),
+          Option(id: 'B', text: 'Amazon'),
+          Option(id: 'C', text: 'Yangtze'),
+          Option(id: 'D', text: 'Mississippi'),
+        ],
+        correctOptionId: 'A',
+        explanation: 'The Nile is the longest river in Africa, flowing through several countries including Uganda, Sudan, and Egypt.',
+      ),
+      Question(
+        id: '2',
+        text: 'Where is the Eiffel Tower located?',
+        options: [
+          Option(id: 'A', text: 'Paris'),
+          Option(id: 'B', text: 'London'),
+          Option(id: 'C', text: 'Berlin'),
+          Option(id: 'D', text: 'Madrid'),
+        ],
+        correctOptionId: 'A',
+        explanation: 'The Eiffel Tower is located in Paris, France.',
+      ),
+
+      Question(
+        id: '3',
+        text: 'What country are the Great Pyramids of Giza located in?',
+        options: [
+          Option(id: 'A', text: 'Egypt'),
+          Option(id: 'B', text: 'Mexico'),
+          Option(id: 'C', text: 'Greece'),
+          Option(id: 'D', text: 'Italy'),
+        ],
+        correctOptionId: 'A',
+        explanation: 'The Great Pyramids of Giza are located in Egypt.',
       ),
       // Add more questions as needed
     ];
