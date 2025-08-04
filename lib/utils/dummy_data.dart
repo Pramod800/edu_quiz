@@ -2,66 +2,50 @@ import 'package:flutter/material.dart';
 import '../models/quiz_model.dart' hide Badge;
 
 class DummyData {
-  static List<Quiz> getQuizzes() {
-    return [
-      Quiz(
-        id: '1',
-        title: 'Science Trivia',
-        category: 'Science',
-        description: 'Test your knowledge of basic science concepts and discoveries.',
-        imageUrl: 'assets/images/science.jpg',
-        questionCount: 10,
-        timeInMinutes: 5,
-        difficulty: 3,
-        isFeatured: true,
-        questions: _getScienceQuestions(),
-      ),
-      Quiz(
-        id: '2',
-        title: 'History Facts',
-        category: 'History',
-        description: 'Journey through time with these historical questions.',
-        imageUrl: 'assets/images/history.jpg',
-        questionCount: 10,
-        timeInMinutes: 5,
-        difficulty: 2,
-        questions: _getHistoryQuestions(),
-      ),
-      Quiz(
-        id: '3',
-        title: 'Geography Challenge',
-        category: 'Geography',
-        description: 'Test your knowledge of countries, capitals, and landmarks.',
-        imageUrl: 'assets/images/geography.jpg',
-        questionCount: 10,
-        timeInMinutes: 5,
-        difficulty: 3,
-        questions: _getGeographyQuestions(),
-      ),
-      Quiz(
-        id: '4',
-        title: 'Movie Quotes',
-        category: 'Movies',
-        description: 'Can you identify these famous movie quotes?',
-        imageUrl: 'assets/images/movies.jpg',
-        questionCount: 10,
-        timeInMinutes: 5,
-        difficulty: 2,
-        questions: [],
-      ),
-      Quiz(
-        id: '5',
-        title: 'Music Legends',
-        category: 'Music',
-        description: 'Test your knowledge of music history and famous artists.',
-        imageUrl: 'assets/images/music.jpg',
-        questionCount: 10,
-        timeInMinutes: 5,
-        difficulty: 3,
-        questions: [],
-      ),
-    ];
-  }
+  // static List<Quiz> getQuizzes() {
+  //   return [
+  //     Quiz(
+  //       id: '1',
+  //       title: 'Science Trivia',
+  //       description: 'Test your knowledge of basic science concepts and discoveries.',
+  //       timeInMinutes: 5,
+  //       difficulty: 3,
+  //       questions: _getScienceQuestions(),
+  //     ),
+  //     Quiz(
+  //       id: '2',
+  //       title: 'History Facts',
+  //       description: 'Journey through time with these historical questions.',
+  //       timeInMinutes: 5,
+  //       difficulty: 2,
+  //       questions: _getHistoryQuestions(),
+  //     ),
+  //     Quiz(
+  //       id: '3',
+  //       title: 'Geography Challenge',
+  //       description: 'Test your knowledge of countries, capitals, and landmarks.',
+  //       timeInMinutes: 5,
+  //       difficulty: 3,
+  //       questions: _getGeographyQuestions(),
+  //     ),
+  //     Quiz(
+  //       id: '4',
+  //       title: 'Movie Quotes',
+  //       description: 'Can you identify these famous movie quotes?',
+  //       timeInMinutes: 5,
+  //       difficulty: 2,
+  //       questions: [],
+  //     ),
+  //     Quiz(
+  //       id: '5',
+  //       title: 'Music Legends',
+  //       description: 'Test your knowledge of music history and famous artists.',
+  //       timeInMinutes: 5,
+  //       difficulty: 3,
+  //       questions: [],
+  //     ),
+  //   ];
+  // }
 
   static List<Category> getCategories() {
     return [

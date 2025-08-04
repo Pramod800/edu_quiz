@@ -1,7 +1,7 @@
-import 'package:edu_quiz/core/network/dio_client.dart';
+import 'dart:developer';
+
+import 'package:edu_quiz/screens/quiz_setup.dart';
 import 'package:flutter/material.dart';
-import '../utils/dummy_data.dart';
-import 'quiz_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,23 +11,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final quizService = QuizApiService();
-
-  Future<void> loadQuiz() async {
-    try {
-      final questions = await quizService.fetchQuestions(amount: 10, category: "18", difficulty: "easy", type: "multiple");
-      print(questions); // use in state management
-    } catch (e) {
-      print("Error: $e");
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadQuiz();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => const QuizScreen(quizId: '1')));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizSetupScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
@@ -87,16 +70,18 @@ class _HomeScreenState extends State<HomeScreen> {
 
               const SizedBox(height: 24),
 
-              // Popular Quizzes
               const Text('Popular Quizzes', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               const SizedBox(height: 16),
 
               Expanded(
                 child: ListView.builder(
-                  itemCount: DummyData.getQuizzes().length,
+                  itemCount: categories.length,
                   itemBuilder: (context, index) {
-                    final quiz = DummyData.getQuizzes()[index];
-                    return QuizCard(quiz: quiz, color: _getRandomColor());
+                    final entry = categories.entries.elementAt(index);
+                    // final categoryId = entry.key;
+                    final categoryName = entry.value;
+
+                    return QuizCard(quiz: {'title': categoryName, 'questionCount': 10, 'timeInMinutes': 5}, color: _getRandomColor());
                   },
                 ),
               ),
@@ -106,20 +91,10 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  String _getRandomCategory() {
-    final categories = ['History', 'Science', 'Geography', 'Sports', 'Movies'];
-    return categories[DateTime.now().millisecond % categories.length];
-  }
-
-  Color _getRandomColor() {
-    final colors = [Colors.blue, Colors.green, Colors.orange, Colors.purple, Colors.teal];
-    return colors[DateTime.now().millisecond % colors.length];
-  }
 }
 
 class QuizCard extends StatelessWidget {
-  final dynamic quiz;
+  final Map<String, dynamic> quiz;
   final Color color;
 
   const QuizCard({super.key, required this.quiz, required this.color});
@@ -138,16 +113,22 @@ class QuizCard extends StatelessWidget {
           decoration: BoxDecoration(color: color.withOpacity(0.2), borderRadius: BorderRadius.circular(12)),
           child: Icon(Icons.quiz, color: color),
         ),
-        title: Text(quiz.title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+        title: Text(quiz['title'] ?? '', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
         subtitle: Text(
-          '${quiz.category} • ${quiz.questionCount} questions • ${quiz.timeInMinutes} min',
+          '${quiz['questionCount']} questions • ${quiz['timeInMinutes']} min',
           style: TextStyle(color: Colors.grey[600], fontSize: 12),
         ),
         trailing: const Icon(Icons.arrow_forward_ios, size: 16),
         onTap: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => QuizScreen(quizId: quiz.id)));
+          log(quiz['title']);
+          // Navigator.push(context, MaterialPageRoute(builder: (context) => QuizSetupScreen(category: quiz['title'],)));
         },
       ),
     );
   }
+}
+
+Color _getRandomColor() {
+  final colors = [Colors.blue, Colors.green, Colors.orange, Colors.purple, Colors.teal];
+  return colors[DateTime.now().millisecond % colors.length];
 }
